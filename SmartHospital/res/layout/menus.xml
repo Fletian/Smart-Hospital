@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:gravity="center"
+  android:background="#ffffff">
+  
+  	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:gravity="center"
+		android:padding="20px"
+		android:layout_weight="1">
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"			
+			android:gravity="center"
+			android:padding="5px"
+			android:background="#0000ff">
+		  	<TextView android:id="@+id/simpleinfo"
+		  		android:layout_width="fill_parent"
+		 		android:layout_height="fill_parent"
+		 		android:textSize="16dp"
+		 		android:background="#ffffff"/>
+ 		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:gravity="center"
+		android:layout_weight="1"
+		android:background="#ffffff"
+		android:padding="10px">
+	  	<Button android:id="@+id/mystatbtn"
+		  	android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="내 상태"
+	  		android:layout_weight="1"/>
+  		<Button android:id="@+id/noticebtn"
+  			android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="병원의 목소리"
+	  		android:layout_weight="1"/>
+	</LinearLayout>
+  
+	<LinearLayout
+	  	xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal"
+	  	android:layout_width="fill_parent"
+	  	android:layout_height="0dp"
+	  	android:gravity="center"
+	  	android:layout_weight="1"
+	  	android:background="#ffffff"
+	  	android:padding="10px">
+	  	<Button android:id="@+id/requestbtn"
+	  		android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="상담요청"
+	  		android:layout_weight="1"/>
+  		<Button android:id="@+id/hospitalinfobtn"
+  			android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="병원정보"
+	  		android:layout_weight="1"/>
+	</LinearLayout>
+  
+	<LinearLayout
+	  	xmlns:android="http://schemas.android.com/apk/res/android"
+	  	android:orientation="horizontal"
+	  	android:layout_width="fill_parent"
+	  	android:layout_height="0dp"
+	  	android:gravity="center"
+	  	android:layout_weight="1"
+	  	android:padding="10px">
+	  	<Button android:id="@+id/qrreadbtn"
+	  		android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="QR재인증"
+	  		android:layout_weight="1"/>
+  		<Button android:id="@+id/parentcallbtn"
+  			android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="20dp"
+	  		android:text="보호자 연락"
+	  		android:layout_weight="1"/>
+	</LinearLayout>
+	<Button android:id="@+id/emergencybtn"
+			android:layout_width="fill_parent"
+	 		android:layout_height="0dp"
+	 		android:textSize="30dp"
+	  		android:text="긴급 신고"
+	  		android:layout_weight="1"
+	  		android:background="#dc143c"
+	  		android:layout_margin="10px"/>
+</LinearLayout>

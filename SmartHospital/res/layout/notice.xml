@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#ffffff">
+  	<TextView android:text="병원의 목소리"
+	  	android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"/>
+	<com.markupartist.android.widget.PullToRefreshListView
+	    android:id="@+id/android:list"
+	    android:layout_height="0dp"
+	    android:layout_width="fill_parent"
+	    android:layout_weight="6"
+    />
+  	<LinearLayout
+		android:orientation="horizontal"
+  		android:layout_width="fill_parent"
+  		android:layout_height="0dp"
+  		android:layout_weight="1"
+  		android:gravity="center">
+  		<Button android:id="@+id/btnstatsave"
+  			android:text="확인"
+  			android:textSize="15dp"
+  			android:layout_width="0dp"
+	  		android:layout_height="fill_parent"
+	  		android:layout_weight="1"
+	  		android:layout_margin="4px"/>
+  		<Button android:id="@+id/btnstatexit"
+  			android:text="취소"
+  			android:textSize="15dp"
+  			android:layout_width="0dp"
+	  		android:layout_height="fill_parent"
+	  		android:layout_weight="1"
+	  		android:layout_margin="4px"/>
+	</LinearLayout>
+</LinearLayout>
