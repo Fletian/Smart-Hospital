@@ -45,6 +45,7 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 //		}
 		try {
 			hospital_name = sendData("test","test location");
+			Log.e("ENTITY", hospital_name);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +59,7 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 
 	private String sendData(String name, String address) throws ClientProtocolException, IOException {  
         // TODO Auto-generated method stub  
-        HttpPost request = makeHttpPost( name, address, "http://excgate.jaram.org/hospital/api_test/" ) ;  
+        HttpPost request = makeHttpPost( name, address, "http://excgate.jaram.org/hospital/request_api/" ) ;  
           
         HttpClient client = new DefaultHttpClient() ;  
         ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
@@ -74,14 +75,14 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
         nameValue.add( new BasicNameValuePair( "name", $name ) ) ;  
         nameValue.add( new BasicNameValuePair( "address", $address ) ) ;  
         request.setEntity( makeEntity(nameValue) ) ;  
-        Log.e("ENTITY", request.getEntity().toString());
+        Log.e("ENTITY", nameValue.toString());
         return request ;  
     }  
       
     private HttpEntity makeEntity( Vector<NameValuePair> $nameValue ) {  
         HttpEntity result = null ;  
         try {  
-            result = new UrlEncodedFormEntity( $nameValue ) ;  
+            result = new UrlEncodedFormEntity( $nameValue , "UTF-8") ;  
         } catch (UnsupportedEncodingException e) {  
             // TODO Auto-generated catch block  
             e.printStackTrace();  
