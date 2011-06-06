@@ -6,6 +6,7 @@ import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.Bundle;
+import android.util.*;
 import android.view.*;
 import android.widget.*;
 
@@ -19,12 +20,15 @@ public class Menus extends Activity {
         String name = "김철수";
         String hname = "세인트사탄";
         String iday = "39";
-        
+        InteractionHttp ih = new InteractionHttp();
         String simpleinfo = name+"님 안녕하세요\n"+hname+" 병원입니다.\n"+iday+"일째 입원중이십니다.";
-        
+        ih.execute();
+        //String test = ih.hospital_name;
+        //Log.e("TESTES", test);
         //TextView에 표시해줄 내용
         TextView tv = (TextView)findViewById(R.id.simpleinfo);
         tv.setText(simpleinfo);
+        //tv.setText(test);
         
         
         findViewById(R.id.mystatbtn).setOnClickListener(myClickListener);
