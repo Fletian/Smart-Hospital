@@ -1,13 +1,13 @@
 package android.graduate.SmartHospital;
 
+import org.apache.http.client.methods.*;
+
 import android.app.Activity;
-import android.os.Bundle;
+import android.os.*;
 
 public class Hospitalinfo extends Activity {
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.hospitalinfo);
-    }
+	 public void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+	        setContentView(R.layout.hospitalinfo);
+	 }
 }

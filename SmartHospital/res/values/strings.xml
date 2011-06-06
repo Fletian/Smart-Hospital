@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, SmartHospital!</string>
     <string name="app_name">SmartHospital</string>
+<string name="server_url">http://jaram.org</string>
 </resources>
