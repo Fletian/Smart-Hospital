@@ -13,46 +13,57 @@ public class FromDB extends AsyncTask<Void, Void, Void>{
 	DbHelper dbhelper;
 	SQLiteDatabase db;
 	Cursor cursor;
-	@Override
+	Context ct;
+	
+	public FromDB(Context context){		
+		dbhelper = new DbHelper(context);
+		//dbhelper.onUpgrade(db, 0, 1);
+	}
 	protected Void doInBackground(Void... params) {
 		// TODO Auto-generated method stub
-		
+		db = dbhelper.getWritableDatabase();
 		return null;
 	}
 	
 	protected boolean isLogin(){
 		boolean result = false;
-		dbhelper = new DbHelper();
 		db = dbhelper.getReadableDatabase();
-		cursor = db.rawQuery("SELECT name, security_number FROM patients", null);
-		if( (cursor.getString(0)).equals(null) )
+		cursor = db.rawQuery("SELECT * FROM patients;", null);
+		Log.e("TEST", cursor.toString());
+		if(cursor == null)
+		//if( (cursor.getString(0)).equals(null) )
 			result = false;
 		else
 			result = true;
 		
-		dbhelper.close();
+		//dbhelper.close();
 		return result;
 	}
 	protected boolean isQR(){
 		boolean result = false;
-		dbhelper = new DbHelper();
 		db = dbhelper.getReadableDatabase();
-		cursor = db.rawQuery("SELECT name, address FROM hospitalinfo", null);
-		if( (cursor.getString(0)).equals(null) )
+		dbhelper.onCreate(db);
+		cursor = db.rawQuery("SELECT * FROM hospitalinfo;", null);
+		cursor.moveToFirst();
+		Log.e("TEST", Integer.toString(cursor.getCount()));
+		
+		if(cursor.getString(0).equals(null))
+			//if( (cursor.getString(0)).equals(null) )
 			result = false;
 		else
 			result = true;
 		
-		dbhelper.close();
+		
+		//dbhelper.close();
 		return result;
 	}
 	
 	protected void hospital_insert(String name, String address){
 		boolean result = false;
-		dbhelper = new DbHelper();
 		db = dbhelper.getWritableDatabase();
-		db.execSQL("INSERT INTO hospitalinfo VALUES ("+ name+","+address+")");				
-		dbhelper.close();
+		//dbhelper.onUpgrade(db, 0, 1);
+		db.execSQL("INSERT INTO hospitalinfo VALUES ('"+ name+"','"+address+"');");				
+		//dbhelper.close();
 		Log.e("dbhelper","Insert success");
 	}
    

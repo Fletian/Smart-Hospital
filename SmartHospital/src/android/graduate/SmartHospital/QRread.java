@@ -7,10 +7,11 @@ import android.graduate.SmartHospital.IntentResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
+import android.content.SharedPreferences.*;
 //import android.net.Uri;
 import android.os.Bundle;
+import android.preference.*;
 //import android.view.View;
 //import android.view.View.OnClickListener;
 //import android.widget.Button;
@@ -43,15 +44,20 @@ public class QRread extends Activity {
 		boolean ff = false;
 		
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+		
+		//Log.e("err", result.getContents());
 		JSONObject qrtext;
 		try {
+			
 			qrtext = new JSONObject(result.getContents());
+			
 			name = qrtext.getString("name");
 			address = qrtext.getString("address");
 			
+			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+	 		e.printStackTrace();
 		}
 		//TextView t = (TextView)findViewById(R.id.qrTxt);
 		//t.setText(qrtext);
@@ -60,9 +66,18 @@ public class QRread extends Activity {
 		}
 		// ��� ���
 		if(ff){
-			FromDB fdb = new FromDB();
-			fdb.hospital_insert(name, address);
-			Log.e("QRREAD", name+","+address);
+			//FromDB fdb = new FromDB(this);
+			//fdb.hospital_insert(name, address);
+			//Log.e("QRREAD", name+","+address);
+			SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
+			Editor editor = mysp.edit();
+			editor.putString("hospital_name", name);
+			Log.e("TEST",name);
+			editor.putString("hospital_address", address);
+			editor.commit();
+			Intent intent = new Intent(QRread.this, Menus.class);
+			startActivity(intent);
+			finish();
 		}
 //		if(ff){
 //			new AlertDialog.Builder(this)

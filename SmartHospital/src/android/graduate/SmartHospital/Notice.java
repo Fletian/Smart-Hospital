@@ -35,7 +35,7 @@ public class Notice extends ListActivity {
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				 new GetDataTask().execute();
-				 mListItems.add(0, new MyItem("Fuck", "WTF", "OMG"));
+				 mListItems.add(0, new MyItem("Refresh Test", "test", "test"));
 			}
 		});
 

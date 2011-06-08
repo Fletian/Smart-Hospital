@@ -1,11 +1,14 @@
 package android.graduate.SmartHospital;
 
 
+import java.io.*;
+
 import android.app.Activity;
 import android.content.*;
 import android.graphics.*;
 import android.net.*;
 import android.os.Bundle;
+import android.preference.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
@@ -17,11 +20,23 @@ public class Menus extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menus);
         
+        SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
+      	String id = null;
+		try {
+			id = new String(mysp.getString("patient_name", "").getBytes(),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      	String h_name = mysp.getString("hospital_name", "");
+    	Log.e("TEST","11"+id);
+    	Log.e("TEST","22"+h_name);
+    	
         String name = "김철수";
         String hname = "세인트사탄";
         String iday = "39";
-        InteractionHttp ih = new InteractionHttp();
-        String simpleinfo = name+"님 안녕하세요\n"+hname+" 병원입니다.\n"+iday+"일째 입원중이십니다.";
+        InteractionHttp ih = new InteractionHttp(this);
+        String simpleinfo = id+"님 안녕하세요\n"+h_name+" 병원입니다.\n"+iday+"일째 입원중이십니다.";
         ih.execute();
         //String test = ih.hospital_name;
         //Log.e("TESTES", test);

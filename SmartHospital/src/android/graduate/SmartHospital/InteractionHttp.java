@@ -14,9 +14,11 @@ import org.json.*;
 
 import android.app.Activity;
 import android.content.*;
+import android.content.SharedPreferences.Editor;
 import android.content.res.*;
 import android.database.sqlite.*;
 import android.os.*;
+import android.preference.*;
 import android.util.*;
 
 public class InteractionHttp extends AsyncTask<Void, Void, Void> {
@@ -42,10 +44,13 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 		
 	
 	DbHelper dbhelper;
+	Context context;
 	
-	
+	public InteractionHttp(Context ct){
+		context = ct;
+	}
 	@Override
-	protected Void doInBackground(Void... arg0) {
+	protected Void doInBackground(Void... params) {
 		try {
 			JSONArray json = new JSONArray(sendData("test","test location"));
 			Log.e("json", json.toString());
@@ -55,7 +60,7 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 			Log.e("fffff", api_for.toString());
 			hospital_api = api_for.getString("api_address");
 			Log.e("aaaaa", hospital_api);
-			
+			saveDatas(context);
 			
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -69,28 +74,56 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 		}
 		return null;
 	}
-	
-	private void saveDB(){		
-		dbhelper = new DbHelper();
+	private void saveDatas(Context context){
+		SharedPreferences mysp = context.getSharedPreferences("mySP", context.MODE_PRIVATE);
+		Editor editor = mysp.edit();
+		editor.putString("hospital_api", hospital_api);
+		String id = mysp.getString("patient_name", "");
+		Log.e("TEST","ddsgwwww"+id);
+    	if(id.equals("")){
+    		Log.e("TEST","drrrrrrr"+id);
+			editor.putString("patient_name", patient_name);
+			editor.putString("patient_pn", patient_pn);
+			editor.putString("caretaker_id", caretaker_id);
+			editor.putString("hospitalized_date", hospitalized_date);
+			
+			editor.putString("caretaker_sn", caretaker_sn);
+			editor.putString("caretaker_phone", caretaker_phone);
+			
+			editor.putString("hospital_name", hospital_name);
+			editor.putString("hospital_address", hospital_address);
+			
+			editor.putString("state_detail", state_detail);
+			editor.putString("feeling_detail", feeling_detail);
+			
+			editor.putString("request_detail", request_detail);
+			editor.putString("request_date", request_date);
+			editor.putString("finish_date", finish_date);
+	    	
+			editor.commit();
+    	}
+	}
+	/*private void saveDB(Context context){		
+		dbhelper = new DbHelper(context);
 		SQLiteDatabase db;
 		db = dbhelper.getWritableDatabase();
-		db.execSQL("DROP TABLE IF EXISTS patients");
-		db.execSQL("DROP TABLE IF EXISTS status_reports");
-		db.execSQL("DROP TABLE IF EXISTS talk_requests");
-		db.execSQL("DROP TABLE IF EXISTS caretakers");
-		db.execSQL("DROP TABLE IF EXISTS hospitalinfo");
-		String patients_temp = patient_name +"," + patient_pn+","+ caretaker_id+","+
-						"null, null, null,"+hospitalized_date;
-		String status_temp = state_detail +"," + feeling_detail;
-		String requests_temp = request_detail +"," + request_date+","+ finish_date;
-		String caretakers_temp = caretaker_sn +"," + caretaker_phone;
-		String hospitalinfo_temp = hospital_name +"," + hospital_address;
-		db.execSQL("INSERT INTO patients VALUES ("+ patients_temp+")");
-		db.execSQL("INSERT INTO status_reports VALUES ("+ status_temp+")");
-		db.execSQL("INSERT INTO talk_requests VALUES ("+ requests_temp+")");
-		db.execSQL("INSERT INTO caretakers VALUES ("+ caretakers_temp+")");
-		db.execSQL("INSERT INTO hospitalinfo VALUES ("+ hospitalinfo_temp+")");
-	}
+		db.execSQL("DROP TABLE IF EXISTS patients;");
+		db.execSQL("DROP TABLE IF EXISTS status_reports;");
+		db.execSQL("DROP TABLE IF EXISTS talk_requests;");
+		db.execSQL("DROP TABLE IF EXISTS caretakers;");
+		db.execSQL("DROP TABLE IF EXISTS hospitalinfo;");
+		String patients_temp = patient_name +"','" + patient_pn+"','"+ caretaker_id+"','"+
+						"null, null, null,'"+hospitalized_date;
+		String status_temp = state_detail +"','" + feeling_detail;
+		String requests_temp = request_detail +"','" + request_date+"','"+ finish_date;
+		String caretakers_temp = caretaker_sn +"','" + caretaker_phone;
+		String hospitalinfo_temp = hospital_name +"','" + hospital_address;
+		db.execSQL("INSERT INTO patients VALUES ('"+ patients_temp+"');");
+		db.execSQL("INSERT INTO status_reports VALUES ('"+ status_temp+"');");
+		db.execSQL("INSERT INTO talk_requests VALUES ('"+ requests_temp+"');");
+		db.execSQL("INSERT INTO caretakers VALUES ('"+ caretakers_temp+"');");
+		db.execSQL("INSERT INTO hospitalinfo VALUES ('"+ hospitalinfo_temp+"');");
+	}*/
 
 	private String sendData(String name, String address) throws ClientProtocolException, IOException {  
         // TODO Auto-generated method stub  
