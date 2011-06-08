@@ -10,25 +10,28 @@
   >
   	<ImageView 
   		android:layout_width="fill_parent"
+  		android:src="@drawable/logo"
 	  	android:layout_height="0dp"
 	  	android:layout_weight="2"/>
 	<!-- App 로고 들어갈 자리 -->
 	<LinearLayout android:orientation="vertical"
 		android:layout_width="fill_parent"
 	  	android:layout_height="0dp"
-	  	android:gravity="center"
-	  	android:layout_weight="4">
+	  	android:gravity="bottom"
+	  	android:layout_weight="3">
 	  	
 	  	<EditText android:id="@+id/loginName"
 		  	android:layout_width="fill_parent"
 		  	android:layout_height="wrap_content"
 		  	android:layout_margin="3px"
+		  	android:imeOptions="actionNext"
 	  		android:hint="아이디"/>
 	
 	  	<EditText android:id="@+id/loginMedinum"
 	  		android:layout_width="fill_parent"
 		  	android:layout_height="wrap_content"
 		  	android:layout_margin="3px"
+		  	android:inputType="number"
 	  		android:hint="주민등록번호"/>
 		<!--  
 	  	<EditText android:id="@+id/loginBrithday"

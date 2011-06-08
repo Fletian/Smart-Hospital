@@ -5,6 +5,7 @@ import java.io.*;
 
 import android.app.Activity;
 import android.content.*;
+import android.content.SharedPreferences.Editor;
 import android.graphics.*;
 import android.net.*;
 import android.os.Bundle;
@@ -22,13 +23,14 @@ public class Menus extends Activity {
         
         SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
       	String id = null;
+      	String h_name=null;
 		try {
 			id = new String(mysp.getString("patient_name", "").getBytes(),"UTF-8");
+			h_name = new String(mysp.getString("hospital_name", "").getBytes(),"UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-      	String h_name = mysp.getString("hospital_name", "");
     	Log.e("TEST","11"+id);
     	Log.e("TEST","22"+h_name);
     	
@@ -51,6 +53,7 @@ public class Menus extends Activity {
         findViewById(R.id.requestbtn).setOnClickListener(myClickListener);
         findViewById(R.id.hospitalinfobtn).setOnClickListener(myClickListener);
         findViewById(R.id.qrreadbtn).setOnClickListener(myClickListener);
+        findViewById(R.id.logoutbtn).setOnClickListener(myClickListener);
         findViewById(R.id.parentcallbtn).setOnClickListener(myClickListener);
         findViewById(R.id.emergencybtn).setOnClickListener(myClickListener);
         
@@ -85,6 +88,14 @@ public class Menus extends Activity {
 				break;
 			case R.id.qrreadbtn:
 				intent = new Intent(Menus.this, QRread.class);
+				startActivity(intent);
+				break;
+			case R.id.logoutbtn:
+				SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
+				Editor editor = mysp.edit();
+				editor.putString("patient_name", "");
+				editor.putString("patient_pn", "");
+				intent = new Intent(Menus.this, AppLogin.class);
 				startActivity(intent);
 				break;
 			case R.id.parentcallbtn:

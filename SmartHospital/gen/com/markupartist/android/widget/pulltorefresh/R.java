@@ -12,37 +12,43 @@ public final class R {
     }
     public static final class drawable {
         public static final int bg_footer=0x7f020000;
-        public static final int ic_pulltorefresh_arrow=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int pull_to_refresh_header_background=0x7f020003;
+        public static final int body=0x7f020001;
+        public static final int feel=0x7f020002;
+        public static final int ic_pulltorefresh_arrow=0x7f020003;
+        public static final int icon=0x7f020004;
+        public static final int logo=0x7f020005;
+        public static final int notice=0x7f020006;
+        public static final int pull_to_refresh_header_background=0x7f020007;
+        public static final int talk=0x7f020008;
     }
     public static final class id {
-        public static final int bodystat=0x7f050010;
-        public static final int btnrequestexit=0x7f05001a;
-        public static final int btnrequestsave=0x7f050019;
-        public static final int btnstatexit=0x7f050013;
-        public static final int btnstatsave=0x7f050012;
-        public static final int emergencybtn=0x7f05000f;
-        public static final int emotionstat=0x7f050011;
+        public static final int bodystat=0x7f050011;
+        public static final int btnrequestexit=0x7f05001b;
+        public static final int btnrequestsave=0x7f05001a;
+        public static final int btnstatexit=0x7f050014;
+        public static final int btnstatsave=0x7f050013;
+        public static final int emergencybtn=0x7f050010;
+        public static final int emotionstat=0x7f050012;
         public static final int hospitalinfobtn=0x7f05000c;
         public static final int list_footer_pulltorefresh=0x7f050003;
         public static final int loginMedinum=0x7f050005;
         public static final int loginName=0x7f050004;
         public static final int logingCancle=0x7f050007;
         public static final int logingOk=0x7f050006;
+        public static final int logoutbtn=0x7f05000e;
         public static final int mystatbtn=0x7f050009;
         public static final int notice_ago=0x7f050002;
         public static final int notice_text=0x7f050000;
         public static final int notice_writer=0x7f050001;
         public static final int noticebtn=0x7f05000a;
-        public static final int parentcallbtn=0x7f05000e;
-        public static final int pull_to_refresh_image=0x7f050015;
-        public static final int pull_to_refresh_progress=0x7f050014;
-        public static final int pull_to_refresh_text=0x7f050016;
-        public static final int pull_to_refresh_updated_at=0x7f050017;
+        public static final int parentcallbtn=0x7f05000f;
+        public static final int pull_to_refresh_image=0x7f050016;
+        public static final int pull_to_refresh_progress=0x7f050015;
+        public static final int pull_to_refresh_text=0x7f050017;
+        public static final int pull_to_refresh_updated_at=0x7f050018;
         public static final int qrreadbtn=0x7f05000d;
         public static final int requestbtn=0x7f05000b;
-        public static final int requesttext=0x7f050018;
+        public static final int requesttext=0x7f050019;
         public static final int simpleinfo=0x7f050008;
     }
     public static final class layout {

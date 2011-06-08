@@ -35,13 +35,13 @@ public class Notice extends ListActivity {
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				 new GetDataTask().execute();
-				 mListItems.add(0, new MyItem("Refresh Test", "test", "test"));
+				 mListItems.add(0, new MyItem("Refresh Test", "이정균 간호사", "15분전"));
 			}
 		});
 
         
         MyItem mi;
-        mi = new MyItem("테스트용입니다 ㅎㅎㅎㅎㅎ","이정균 바보","1분전");
+        mi = new MyItem("테스트용입니다 테스트중입니다.","이정균 간호사","15분전");
         for(int i=0; i<20; i++)
         	mListItems.add(mi);
         for(int i=0; i<paging; i++)

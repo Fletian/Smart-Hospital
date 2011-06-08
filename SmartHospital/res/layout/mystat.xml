@@ -13,9 +13,8 @@
   		android:background="#ffffff"
   		android:gravity="center"
   		>
-  		<TextView android:text = "나의 몸 상태"
-  			android:textSize="25dp"
-  			android:textColor="#000000"
+  		<ImageView   			
+  			android:src="@drawable/body"
 	  		android:layout_width="fill_parent"
 	  		android:layout_height="0dp"
 	  		android:layout_weight="1"/>
@@ -23,6 +22,7 @@
 	  		android:layout_width="fill_parent"
 	  		android:layout_height="0dp"
 	  		android:hint="현재 몸 상태를 적어주세요"
+	  		android:imeOptions="actionNext"
 	  		android:layout_weight="3"/>	  		
 	</LinearLayout>
 	<LinearLayout
@@ -32,15 +32,15 @@
   		android:layout_weight="3"
   		android:background="#ffffff"
   		android:gravity="center">
-  		<TextView android:text = "나의 감정"
-  			android:textSize="25dp"
-  			android:textColor="#000000"
+  		<ImageView   			
+  			android:src="@drawable/feel"
 	  		android:layout_width="fill_parent"
 	  		android:layout_height="0dp"
 	  		android:layout_weight="1"/>
 	  	<EditText android:id="@+id/emotionstat"
 	  		android:layout_width="fill_parent"
 	  		android:layout_height="0dp"
+	  		android:imeOptions="actionDone"
 	  		android:hint="현재 감정을 적어주세요"
 	  		android:layout_weight="3"/>	  
 	</LinearLayout>
@@ -49,7 +49,8 @@
   		android:layout_width="fill_parent"
   		android:layout_height="0dp"
   		android:layout_weight="1"
-  		android:gravity="center">
+  		android:gravity="center"
+  		android:background="#ffffff">
   		<Button android:id="@+id/btnstatsave"
   			android:text="확인"
   			android:textSize="20dp"

@@ -38,15 +38,15 @@ public class AppLogin extends Activity {
 				Intent intent;
 				//QR코드를 입력한적이 있다면 메뉴로 없다면 QR코드 입력으로 감
 				//QR합칠때 수정 필요함
+				name = "";
+		        security_num ="";
 				name = ((EditText)findViewById(R.id.loginName)).getText().toString();
 		        security_num = ((EditText)findViewById(R.id.loginMedinum)).getText().toString();
 				Editor editor = mysp.edit();
 				editor.putString("patient_name", name);
-				Log.e("TEST","3"+name);
 				editor.putString("patient_pn", security_num);
 				editor.commit();
 				String h_name = mysp.getString("hospital_name", "");
-				Log.e("TEST","2"+h_name);
 				if(h_name.equals("")){
 					intent = new Intent(AppLogin.this, QRread.class);
 					startActivity(intent);

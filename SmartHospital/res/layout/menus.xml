@@ -12,19 +12,22 @@
 		android:layout_width="fill_parent"
 		android:layout_height="0dp"
 		android:gravity="center"
-		android:padding="20px"
+		android:padding="15px"
 		android:layout_weight="1">
 		<LinearLayout
 			android:orientation="horizontal"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"			
 			android:gravity="center"
-			android:padding="5px"
-			android:background="#0000ff">
+			android:padding="3px"
+			android:background="#228b22">
 		  	<TextView android:id="@+id/simpleinfo"
 		  		android:layout_width="fill_parent"
 		 		android:layout_height="fill_parent"
-		 		android:textSize="16dp"
+		 		android:textSize="18dp"
+		 		android:textStyle="bold"
+		 		android:textColor="#000000"
+		 		android:gravity="center"		 		
 		 		android:background="#ffffff"/>
  		</LinearLayout>
 	</LinearLayout>
@@ -85,13 +88,19 @@
 	  	<Button android:id="@+id/qrreadbtn"
 	  		android:layout_width="fill_parent"
 	 		android:layout_height="fill_parent"
-	 		android:textSize="20dp"
+	 		android:textSize="15dp"
 	  		android:text="QR재인증"
+	  		android:layout_weight="1"/>
+	  	<Button android:id="@+id/logoutbtn"
+	  		android:layout_width="fill_parent"
+	 		android:layout_height="fill_parent"
+	 		android:textSize="15dp"
+	  		android:text="로그아웃"
 	  		android:layout_weight="1"/>
   		<Button android:id="@+id/parentcallbtn"
   			android:layout_width="fill_parent"
 	 		android:layout_height="fill_parent"
-	 		android:textSize="20dp"
+	 		android:textSize="15dp"
 	  		android:text="보호자 연락"
 	  		android:layout_weight="1"/>
 	</LinearLayout>
