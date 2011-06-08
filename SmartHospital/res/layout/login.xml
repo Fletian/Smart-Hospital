@@ -29,13 +29,14 @@
 	  		android:layout_width="fill_parent"
 		  	android:layout_height="wrap_content"
 		  	android:layout_margin="3px"
-	  		android:hint="의료보험번호"/>
-	
+	  		android:hint="주민등록번호"/>
+		<!--  
 	  	<EditText android:id="@+id/loginBrithday"
 	  		android:layout_width="fill_parent"
 		  	android:layout_height="wrap_content"
 		  	android:layout_margin="3px"
 	  		android:hint="생년월일"/>
+	  		-->
 	
 	
 		<LinearLayout

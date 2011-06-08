@@ -1,5 +1,7 @@
 package android.graduate.SmartHospital;
 
+import org.json.*;
+
 import android.graduate.SmartHospital.IntentIntegrator;
 import android.graduate.SmartHospital.IntentResult;
 
@@ -13,10 +15,12 @@ import android.os.Bundle;
 //import android.view.View.OnClickListener;
 //import android.widget.Button;
 //import android.widget.TextView;
+import android.util.*;
 
 public class QRread extends Activity {
     /** Called when the activity is first created. */
-	String qrtext; 
+	String name;
+	String address;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +43,16 @@ public class QRread extends Activity {
 		boolean ff = false;
 		
 		IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-		qrtext = result.getContents();
+		JSONObject qrtext;
+		try {
+			qrtext = new JSONObject(result.getContents());
+			name = qrtext.getString("name");
+			address = qrtext.getString("address");
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//TextView t = (TextView)findViewById(R.id.qrTxt);
 		//t.setText(qrtext);
 		if(result!=null){
@@ -47,19 +60,24 @@ public class QRread extends Activity {
 		}
 		// ��� ���
 		if(ff){
-			new AlertDialog.Builder(this)
-				.setTitle("QR Code Text")
-				.setMessage(result.getContents() + " [" + result.getFormatName() + "]")
-				.setPositiveButton("확인", new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which)
-					{
-						dialog.dismiss();
-					}
-				})
-				.show();
+			FromDB fdb = new FromDB();
+			fdb.hospital_insert(name, address);
+			Log.e("QRREAD", name+","+address);
 		}
+//		if(ff){
+//			new AlertDialog.Builder(this)
+//				.setTitle("QR Code Text")
+//				.setMessage(result.getContents() + " [" + result.getFormatName() + "]")
+//				.setPositiveButton("확인", new DialogInterface.OnClickListener()
+//				{
+//					@Override
+//					public void onClick(DialogInterface dialog, int which)
+//					{
+//						dialog.dismiss();
+//					}
+//				})
+//				.show();
+//		}
 //		if(ff){	//parsing �ؼ� �ּ� �ѱ�
 //			Intent aa = new Intent(Intent.ACTION_WEB_SEARCH);
 //			aa.setData(Uri.parse("http://google.com"));	//���ͳ� ���� �׽�Ʈ��

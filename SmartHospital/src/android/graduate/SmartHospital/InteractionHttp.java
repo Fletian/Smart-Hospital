@@ -15,46 +15,81 @@ import org.json.*;
 import android.app.Activity;
 import android.content.*;
 import android.content.res.*;
+import android.database.sqlite.*;
 import android.os.*;
 import android.util.*;
 
 public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 	String patient_name;
 	String patient_pn;
+	String caretaker_id;
+	String hospitalized_date;
+	
+	String caretaker_sn;	
 	String caretaker_phone;
 	
 	String hospital_name;
-	String hospital_address;
-	String hospitalized_date;
+	String hospital_address;	
 	
-	String body_stats;
-	String emotions;
+	String state_detail;
+	String feeling_detail;
 	
-	String question;
+	String request_detail;
+	String request_date;
+	String finish_date;
+	
+	String hospital_api;
 		
+	
+	DbHelper dbhelper;
+	
 	
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		// TODO Auto-generated method stub
-		
-//		try {
-//			Log.e("TESTES", getJson("http://excgate.jaram.org/hospital/api_test/","name",true));
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		try {
-			hospital_name = sendData("test","test location");
-			Log.e("ENTITY", hospital_name);
+			JSONArray json = new JSONArray(sendData("test","test location"));
+			Log.e("json", json.toString());
+			JSONObject temp = new JSONObject(json.getString(0));
+			Log.e("temp", temp.toString());
+			JSONObject api_for = new JSONObject(temp.getString("fields"));
+			Log.e("fffff", api_for.toString());
+			hospital_api = api_for.getString("api_address");
+			Log.e("aaaaa", hospital_api);
+			
+			
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		//200이면 넘김
 		return null;
+	}
+	
+	private void saveDB(){		
+		dbhelper = new DbHelper();
+		SQLiteDatabase db;
+		db = dbhelper.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS patients");
+		db.execSQL("DROP TABLE IF EXISTS status_reports");
+		db.execSQL("DROP TABLE IF EXISTS talk_requests");
+		db.execSQL("DROP TABLE IF EXISTS caretakers");
+		db.execSQL("DROP TABLE IF EXISTS hospitalinfo");
+		String patients_temp = patient_name +"," + patient_pn+","+ caretaker_id+","+
+						"null, null, null,"+hospitalized_date;
+		String status_temp = state_detail +"," + feeling_detail;
+		String requests_temp = request_detail +"," + request_date+","+ finish_date;
+		String caretakers_temp = caretaker_sn +"," + caretaker_phone;
+		String hospitalinfo_temp = hospital_name +"," + hospital_address;
+		db.execSQL("INSERT INTO patients VALUES ("+ patients_temp+")");
+		db.execSQL("INSERT INTO status_reports VALUES ("+ status_temp+")");
+		db.execSQL("INSERT INTO talk_requests VALUES ("+ requests_temp+")");
+		db.execSQL("INSERT INTO caretakers VALUES ("+ caretakers_temp+")");
+		db.execSQL("INSERT INTO hospitalinfo VALUES ("+ hospitalinfo_temp+")");
 	}
 
 	private String sendData(String name, String address) throws ClientProtocolException, IOException {  
@@ -70,7 +105,7 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
     private HttpPost makeHttpPost(String $name, String $address, String $url) throws IllegalStateException, IOException {  
         // TODO Auto-generated method stub  
         HttpPost request = new HttpPost( $url ) ;  
-        //JSONObject json = new
+        
         Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
         nameValue.add( new BasicNameValuePair( "name", $name ) ) ;  
         nameValue.add( new BasicNameValuePair( "address", $address ) ) ;  
@@ -89,51 +124,4 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
         }  
         return result ;  
     }  
-	
-//    public static String getJson(String serverUrl, String postPara, boolean flagEncoding) throws Exception {
-//        URL url = null;
-//        HttpURLConnection conn = null;
-//        PrintWriter postReq = null;
-//        BufferedReader postRes = null;
-//        StringBuilder json = null;
-//        String line = null;
-//        
-//        json = new StringBuilder();
-//        try {
-//            if (flagEncoding) {
-//                postPara = URLEncoder.encode(postPara);
-//            }
-//            
-//            url = new URL(serverUrl);
-//            conn = (HttpURLConnection) url.openConnection();
-//            conn.setDoOutput(true);
-//            conn.setUseCaches(false);
-//            conn.setRequestMethod("POST");
-//            conn.setRequestProperty("Content-Type", "text/plain");
-//            conn.setRequestProperty("Content-Length", 
-//                                          Integer.toString(postPara.length()));
-//            conn.setDoInput(true);
-//            
-//            postReq = new PrintWriter(
-//                              new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
-//            postReq.write(postPara);
-//            postReq.flush();
-//            
-//            postRes = new BufferedReader(
-//                             new InputStreamReader(conn.getInputStream(), "UTF-8"));
-//            while ((line = postRes.readLine()) != null){
-//                json.append(line);
-//            }
-//            conn.disconnect();
-//        } catch (MalformedURLException ex) {
-//            throw new Exception(ex.getMessage());
-//        } catch (IOException ex) {
-//            throw new Exception(ex.getMessage());
-//       } catch (Exception ex) {
-//            throw new Exception(ex.getMessage());
-//       }
-//        return json.toString();    
-//    }
-    
-	
 }

@@ -12,8 +12,7 @@ public class AppLogin extends Activity {
 	/**로그인 버튼 처리,확인은 다음으로 넘어감
 	 * 취소는 초기화?? 어플 종료?? 로그인 정보 있으면 스킵*/
 	protected String name;			//이름
-	protected String medinum;		//의료보험번호
-	protected String birthday;		//생년월일
+	protected String security_num;		//주민번호
 	String QRcode = "1";	//QR코드 존재 확인을 위함  null로 바꿔줘야함
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,8 +20,8 @@ public class AppLogin extends Activity {
         setContentView(R.layout.login);
         
         name = ((EditText)findViewById(R.id.loginName)).getText().toString();
-        medinum = ((EditText)findViewById(R.id.loginMedinum)).getText().toString();
-        birthday = ((EditText)findViewById(R.id.loginBrithday)).getText().toString();
+        security_num = ((EditText)findViewById(R.id.loginMedinum)).getText().toString();
+        //birthday = ((EditText)findViewById(R.id.loginBrithday)).getText().toString();
         /** 버튼 누를때의 처리
          * 확인버튼은 name, medinum, birthday를 병원db로 보냄
          */
