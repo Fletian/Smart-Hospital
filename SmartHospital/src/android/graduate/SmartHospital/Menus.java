@@ -22,24 +22,22 @@ public class Menus extends Activity {
         setContentView(R.layout.menus);
         
         SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
-      	String id = null;
-      	String h_name=null;
+      	String name = "";
+      	String h_name = "";
+      	String h_day = "";
 		try {
-			id = new String(mysp.getString("patient_name", "").getBytes(),"UTF-8");
+			name = new String(mysp.getString("patient_name", "").getBytes(),"UTF-8");
 			h_name = new String(mysp.getString("hospital_name", "").getBytes(),"UTF-8");
+			h_day =mysp.getString("hospitalized_date", "");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	Log.e("TEST","11"+id);
+    	Log.e("TEST","11"+name);
     	Log.e("TEST","22"+h_name);
     	
-        String name = "김철수";
-        String hname = "세인트사탄";
-        String iday = "39";
-        InteractionHttp ih = new InteractionHttp(this);
-        String simpleinfo = id+"님 안녕하세요\n"+h_name+" 병원입니다.\n"+iday+"일째 입원중이십니다.";
-        ih.execute();
+        String simpleinfo = name+"님 안녕하세요\n"+h_name+" 병원입니다.\n"+h_day+"일째 입원중이십니다.";
+        
         //String test = ih.hospital_name;
         //Log.e("TESTES", test);
         //TextView에 표시해줄 내용

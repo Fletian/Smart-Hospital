@@ -22,23 +22,35 @@ public class SmartHospital extends Activity {
         Log.e("Context", this.getBaseContext().toString());
         //FromDB fdb = new FromDB(this);
         //boolean islogin = fdb.isLogin();
-        if(!isLogin())
-        	intent = new Intent(SmartHospital.this, AppLogin.class);
+        if(!isQrread()){        	
+	        if(!isLogin())
+	        	intent = new Intent(SmartHospital.this, AppLogin.class);       
+	        else
+	        	intent = new Intent(SmartHospital.this, Menus.class);
+        }
         else
-        	intent = new Intent(SmartHospital.this, Menus.class);
+        	intent = new Intent(SmartHospital.this, QRread.class);
         //intent = new Intent(SmartHospital.this, AppLogin.class);
 		startActivity(intent);
     }
     
     private boolean isLogin(){
      	SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
-      	String id = mysp.getString("patient_name", "");
-    	Log.e("TEST","1"+id);
+      	String id = mysp.getString("patient_pn", "");
+    	Log.e("TEST","!!!!"+id);
     	if(id.equals(""))
     		return false;
     	else{
-    		InteractionHttp ih = new InteractionHttp(this);
-    		ih.execute();
+    		return true;
+    	}
+    }
+    private boolean isQrread(){
+     	SharedPreferences mysp = getSharedPreferences("mySP", MODE_PRIVATE);
+      	String api = mysp.getString("hospital_api", "");
+    	Log.e("TEST","!!!!"+api);
+    	if(api.equals(""))
+    		return false;
+    	else{
     		return true;
     	}
     }

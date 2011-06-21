@@ -27,19 +27,33 @@
 		  	android:imeOptions="actionNext"
 	  		android:hint="아이디"/>
 	
-	  	<EditText android:id="@+id/loginMedinum"
-	  		android:layout_width="fill_parent"
-		  	android:layout_height="wrap_content"
-		  	android:layout_margin="3px"
-		  	android:inputType="number"
-	  		android:hint="주민등록번호"/>
-		<!--  
-	  	<EditText android:id="@+id/loginBrithday"
-	  		android:layout_width="fill_parent"
-		  	android:layout_height="wrap_content"
-		  	android:layout_margin="3px"
-	  		android:hint="생년월일"/>
-	  		-->
+		<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent"
+	  	android:layout_height="wrap_content"
+	  	android:gravity="center"
+	  	>
+		  	<EditText android:id="@+id/loginPreNum"
+		  		android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:layout_margin="3px"
+			  	android:inputType="number"
+			  	android:maxLength="6"
+		  		android:hint="  주민  "/>
+		  	<TextView android:text="-"
+		  		android:textSize="18dp"
+		  		android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"/>
+			 
+		  	<EditText android:id="@+id/loginPostNum"
+		  		android:layout_width="wrap_content"
+			  	android:layout_height="wrap_content"
+			  	android:inputType="number"
+			  	android:layout_margin="3px"
+			  	android:maxLength="7"
+			  	android:imeOptions="actionDone"
+		  		android:hint="     번호     "/>
+	  		
+	  	</LinearLayout>
 	
 	
 		<LinearLayout

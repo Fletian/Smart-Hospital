@@ -75,7 +75,13 @@ public class QRread extends Activity {
 			Log.e("TEST",name);
 			editor.putString("hospital_address", address);
 			editor.commit();
-			Intent intent = new Intent(QRread.this, Menus.class);
+			Intent intent;
+			if(mysp.getString("patient_name", "").equals(""))
+				intent = new Intent(QRread.this, AppLogin.class);
+			else
+				intent = new Intent(QRread.this, Menus.class);
+			InteractionHttp ih = new InteractionHttp(this, "QR");
+			ih.execute();
 			startActivity(intent);
 			finish();
 		}

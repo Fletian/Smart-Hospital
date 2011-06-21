@@ -19,11 +19,14 @@ import android.content.res.*;
 import android.database.sqlite.*;
 import android.os.*;
 import android.preference.*;
+import android.text.*;
 import android.util.*;
 
 public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 	String patient_name;
 	String patient_pn;
+	String secret_key;
+	String treatment_status;
 	String caretaker_id;
 	String hospitalized_date;
 	
@@ -45,22 +48,71 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 	
 	DbHelper dbhelper;
 	Context context;
+	String flag;
 	
-	public InteractionHttp(Context ct){
+	public InteractionHttp(Context ct, String t_flag){
 		context = ct;
+		flag = t_flag;
 	}
 	@Override
 	protected Void doInBackground(Void... params) {
 		try {
-			JSONArray json = new JSONArray(sendData("test","test location"));
-			Log.e("json", json.toString());
-			JSONObject temp = new JSONObject(json.getString(0));
-			Log.e("temp", temp.toString());
-			JSONObject api_for = new JSONObject(temp.getString("fields"));
-			Log.e("fffff", api_for.toString());
-			hospital_api = api_for.getString("api_address");
-			Log.e("aaaaa", hospital_api);
-			saveDatas(context);
+			SharedPreferences mysp = context.getSharedPreferences("mySP", context.MODE_PRIVATE);
+			Editor editor = mysp.edit();
+			hospital_api = mysp.getString("hospital_api", "");
+			
+			if(flag.equals("QR")){
+				JSONArray json = new JSONArray(sendData("test","test location"));
+				JSONObject temp = new JSONObject(json.getString(0));
+				JSONObject api_for = new JSONObject(temp.getString("fields"));
+				hospital_api = api_for.getString("api_address");
+				Log.e("aaaaa", hospital_api);
+				editor.putString("hospital_api", hospital_api);
+			}
+			else if(flag.equals("LOGIN")){				
+				patient_name = mysp.getString("patient_name", "");
+				patient_pn = mysp.getString("patient_pn", "");
+				JSONObject loginJson = new JSONObject(sendLoginData(patient_name, patient_pn));
+				Log.e("inter", loginJson.toString());
+				JSONObject loginfields = new JSONObject(loginJson.getString("fields"));
+				secret_key = loginfields.getString("secret_key");
+				caretaker_id = loginfields.getString("caretaker");
+				hospitalized_date = loginfields.getString("hospitalized_date");
+				treatment_status = loginfields.getString("treatment_status");
+				
+				editor.putString("secret_key", secret_key);
+				editor.putString("caretaker_id", caretaker_id);
+				editor.putString("hospitalized_date", hospitalized_date);
+				editor.putString("treatment_status", treatment_status);
+				Log.e("inter", treatment_status);
+			}
+			else if(flag.equals("STATUS")){
+				secret_key = mysp.getString("secret_key", "");
+				state_detail = mysp.getString("state_detail", "");
+				feeling_detail = mysp.getString("feeling_detail", "");
+				
+				JSONObject loginfields = new JSONObject(sendStatus(secret_key, state_detail, feeling_detail));
+			}
+			else if(flag.equals("TALK")){
+				secret_key = mysp.getString("secret_key", "");
+				request_detail = mysp.getString("request_detail", "");
+				
+				JSONObject loginfields = new JSONObject(sendTalkReq(secret_key,request_detail));
+			}
+			else if(flag.equals("EMER")){
+				secret_key = mysp.getString("secret_key", "");
+				
+				JSONObject loginfields = new JSONObject(sendEmergency(secret_key));
+			}
+			else if(flag.equals("MASSAGE")){
+				secret_key = mysp.getString("secret_key", "");
+				
+				JSONObject loginfields = new JSONObject(sendMessageReq(secret_key));
+			}
+			
+			
+			
+			//saveDatas(context);
 			
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
@@ -79,9 +131,9 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 		Editor editor = mysp.edit();
 		editor.putString("hospital_api", hospital_api);
 		String id = mysp.getString("patient_name", "");
-		Log.e("TEST","ddsgwwww"+id);
+		//Log.e("TEST","ddsgwwww"+id);
     	if(id.equals("")){
-    		Log.e("TEST","drrrrrrr"+id);
+    		//Log.e("TEST","drrrrrrr"+id);
 			editor.putString("patient_name", patient_name);
 			editor.putString("patient_pn", patient_pn);
 			editor.putString("caretaker_id", caretaker_id);
@@ -103,39 +155,93 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
 			editor.commit();
     	}
 	}
-	/*private void saveDB(Context context){		
-		dbhelper = new DbHelper(context);
-		SQLiteDatabase db;
-		db = dbhelper.getWritableDatabase();
-		db.execSQL("DROP TABLE IF EXISTS patients;");
-		db.execSQL("DROP TABLE IF EXISTS status_reports;");
-		db.execSQL("DROP TABLE IF EXISTS talk_requests;");
-		db.execSQL("DROP TABLE IF EXISTS caretakers;");
-		db.execSQL("DROP TABLE IF EXISTS hospitalinfo;");
-		String patients_temp = patient_name +"','" + patient_pn+"','"+ caretaker_id+"','"+
-						"null, null, null,'"+hospitalized_date;
-		String status_temp = state_detail +"','" + feeling_detail;
-		String requests_temp = request_detail +"','" + request_date+"','"+ finish_date;
-		String caretakers_temp = caretaker_sn +"','" + caretaker_phone;
-		String hospitalinfo_temp = hospital_name +"','" + hospital_address;
-		db.execSQL("INSERT INTO patients VALUES ('"+ patients_temp+"');");
-		db.execSQL("INSERT INTO status_reports VALUES ('"+ status_temp+"');");
-		db.execSQL("INSERT INTO talk_requests VALUES ('"+ requests_temp+"');");
-		db.execSQL("INSERT INTO caretakers VALUES ('"+ caretakers_temp+"');");
-		db.execSQL("INSERT INTO hospitalinfo VALUES ('"+ hospitalinfo_temp+"');");
-	}*/
-
-	private String sendData(String name, String address) throws ClientProtocolException, IOException {  
+	private String sendLoginData(String $name, String $number) throws ClientProtocolException, IOException {  
         // TODO Auto-generated method stub  
-        HttpPost request = makeHttpPost( name, address, "http://excgate.jaram.org/hospital/request_api/" ) ;  
-          
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/admin/request_patient/" ) ;   
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "name", $name ) ) ;  
+        nameValue.add( new BasicNameValuePair( "security_number", $number ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
         HttpClient client = new DefaultHttpClient() ;  
         ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
         String result = client.execute( request, reshandler ) ;  
         return result ;  
     }  
-  
-    private HttpPost makeHttpPost(String $name, String $address, String $url) throws IllegalStateException, IOException {  
+	
+	private String sendStatus(String $key,String $body,String $mind) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/report/write_status/" ) ;         
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "secret_key", $key ) ) ;  
+        nameValue.add( new BasicNameValuePair( "body_status", $body ) ) ;  
+        nameValue.add( new BasicNameValuePair( "mind_status", $mind ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	private String sendTalkReq(String $key,String $detail) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/report/write_talk/" ) ;         
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "secret_key", $key ) ) ;  
+        nameValue.add( new BasicNameValuePair( "detail", $detail ) ) ;
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	
+	private String sendMessageReq(String $key) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/amdin/request_message/" ) ;         
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "secret_key", $key ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	private String sendCaretaker(String $key) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/admin/request_caretaker/" ) ;         
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "secret_key", $key ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	private String sendEmergency(String $key) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost( "http://"+hospital_api+"/admin/request_emergency/" ) ;      
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "secret_key", $key ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	private String sendData(String $name, String $address) throws ClientProtocolException, IOException {  
+        // TODO Auto-generated method stub  
+        HttpPost request = new HttpPost("http://excgate.jaram.org/hospital/request_api/" ) ;  
+        
+        Vector<NameValuePair> nameValue = new Vector<NameValuePair>() ;  
+        nameValue.add( new BasicNameValuePair( "name", $name ) ) ;  
+        nameValue.add( new BasicNameValuePair( "address", $address ) ) ;  
+        request.setEntity( makeEntity(nameValue) ) ;  
+        HttpClient client = new DefaultHttpClient() ;  
+        ResponseHandler<String> reshandler = new BasicResponseHandler() ;  
+        String result = client.execute( request, reshandler ) ;  
+        return result ;  
+    }  
+	
+    /*private HttpPost makeHttpPost(String $name, String $address, String $url) throws IllegalStateException, IOException {  
         // TODO Auto-generated method stub  
         HttpPost request = new HttpPost( $url ) ;  
         
@@ -145,7 +251,7 @@ public class InteractionHttp extends AsyncTask<Void, Void, Void> {
         request.setEntity( makeEntity(nameValue) ) ;  
         Log.e("ENTITY", nameValue.toString());
         return request ;  
-    }  
+    }  */
       
     private HttpEntity makeEntity( Vector<NameValuePair> $nameValue ) {  
         HttpEntity result = null ;  
